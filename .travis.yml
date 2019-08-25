@@ -7,11 +7,12 @@ install:
   - pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
 script:
-  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS)"
-  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force)
-  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile /dev/stdout -BuildTarget iOS -ExecuteMethod UnityCIExample.Builder.BuildPlayer"
+  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS) -Destination $HOME/Unity"
+  - ls $HOME/Unity
+  - $HOME/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+  - $HOME/Unity/Editor/Unity -quit -batchmode -buildTarget iOS -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
   - ls -al
   - echo OK
 
 after_script:
-  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force) -ReturnLicense
+  - $HOME/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
