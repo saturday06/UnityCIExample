@@ -25,11 +25,12 @@ install:
       }
       appveyor DownloadFile https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip
       7z x android-ndk-r16b-windows-x86_64.zip -o"$env:ANDROID_NDK_HOME"
+      dir $env:ANDROID_NDK_HOME
 
 build_script:
   - ps: |
-      $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Build.log -BuildTarget Android -ExecuteMethod Builder.BuildPlayer
-      type Test.log
+      $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Build.log -BuildTarget Android -ExecuteMethod UnityCIExample.Builder.BuildPlayer
+      type Build.log
       $webclient = New-Object "System.Net.WebClient"
       $webclient.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (dir TestResults-*.xml).FullName)
       if ($unity.ExitCode) {
