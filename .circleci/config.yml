@@ -14,8 +14,8 @@ jobs:
   build:
     parallelism: 1
     executor: default
-  steps:
-    - build
+    steps:
+      - build
 
 commands:
   build:
