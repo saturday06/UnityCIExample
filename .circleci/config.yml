@@ -26,6 +26,8 @@ commands:
       - run:
           name: build
           command: |
+            echo $ANDROID_HOME
+            echo $ANDROID_NDK_HOME
             ls -al /opt
             Xvfb -screen 0 640x480x24:32 &
             /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile || true
