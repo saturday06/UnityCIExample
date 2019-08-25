@@ -31,7 +31,7 @@ commands:
       - run: |
           mkdir -p $ANDROID_NDK_HOME
           wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
-          unzip android-ndk-r16b-linux-x86_64.zip -o -d $ANDROID_NDK_HOME/..
+          unzip -o android-ndk-r16b-linux-x86_64.zip -d $ANDROID_NDK_HOME/..
           ls -al /opt
           ls -al $ANDROID_NDK_HOME
       - run:
