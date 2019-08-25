@@ -7,4 +7,5 @@ install: |
   pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
 script: |
-  pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Android,Windows)"
+  pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS)"
+  echo OK
