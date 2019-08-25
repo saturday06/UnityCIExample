@@ -11,13 +11,9 @@ environment:
   ANDROID_NDK_HOME: "C:\\android-ndk-r16b"
 
 init:
-  - cmd: |
-      dir "C:\Program Files (x86)\Android\android-sdk\"
-      New-Item -ItemType directory -Path "C:\Program Files (x86)\Android\android-sdk\licenses"
-      dir "C:\Program Files (x86)\Android\android-sdk\"
-      Out-File -FilePath "C:\Program Files (x86)\Android\android-sdk\licenses\android-sdk-license" -InputObject "24333f8a63b6825ea9c5514f83c2829b004d1fee"
-
   - ps: |
+      New-Item -ItemType directory -Path "C:\Program Files (x86)\Android\android-sdk\licenses"
+      Out-File -FilePath "C:\Program Files (x86)\Android\android-sdk\licenses\android-sdk-license" -InputObject "24333f8a63b6825ea9c5514f83c2829b004d1fee"
       Install-Module -Name UnitySetup
       $unity_credential = New-Object Management.Automation.PSCredential ($env:unity_username, ($env:unity_password | ConvertTo-SecureString -AsPlainText -Force))
 
