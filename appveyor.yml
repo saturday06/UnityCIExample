@@ -23,6 +23,10 @@ install:
         exit 1
       }
 
+build_script:
+  - ps: |
+      echo Nothing to build
+
 test_script:
   - ps: |
       $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Test.log -RunEditorTests
