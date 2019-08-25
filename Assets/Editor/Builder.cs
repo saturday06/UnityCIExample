@@ -13,11 +13,12 @@ namespace UnityCIExample
             {
                 locationPathName = "Build",
                 scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(scene => scene.path).ToArray(),
+                target = EditorUserBuildSettings.activeBuildTarget,
             };
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             if (report.summary.result != BuildResult.Succeeded)
             {
-                throw new Exception("Build failed: " + report.summary);
+                throw new Exception("Build failed: " + report.summary.result);
             }
         }
     }
