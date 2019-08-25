@@ -11,13 +11,14 @@ environment:
   ANDROID_NDK_HOME: "C:\\android-ndk-r16b"
 
 init:
+  - cmd: |
+      yes | "C:\Program Files (x86)\Android\android-sdk\toolsls\bin\sdkmanager.bat" --licenses
   - ps: |
       Install-Module -Name UnitySetup
       $unity_credential = New-Object Management.Automation.PSCredential ($env:unity_username, ($env:unity_password | ConvertTo-SecureString -AsPlainText -Force))
 
 install:
   - ps: |
-      yes | "C:\Program Files (x86)\Android\android-sdk\toolsls\bin\sdkmanager.bat" --licenses
       Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Android,Windows)
       $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)
       type License.log
