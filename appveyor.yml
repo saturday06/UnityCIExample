@@ -1,4 +1,4 @@
-image: Visual Studio 2017
+image: Xamarin
 
 max_jobs: 1
 
@@ -8,6 +8,7 @@ environment:
     secure: bfiZ9ZLA6U2ue+6tpKwQ4ivRaePwVk/+RM7PoO7K6bQ=
   unity_serial:
     secure: cqmfJplindf90Uy/n53b58LNn5LVSxicPEXuFFBnnns=
+  ANDROID_NDK_HOME: "C:\\android-ndk-r16b"
 
 init:
   - ps: |
@@ -16,12 +17,14 @@ init:
 
 install:
   - ps: |
-      Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2019.1.9f1 -Components 'Windows')
+      Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2019.1.9f1 -Components Android,Windows)
       $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)
       type License.log
       if ($unity.ExitCode) {
         exit 1
       }
+      appveyor DownloadFile https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip
+      7z x android-ndk-r16b-windows-x86_64.zip -o$env:ANDROID_NDK_HOME
 
 build_script:
   - ps: |
