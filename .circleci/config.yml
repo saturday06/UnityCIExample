@@ -24,13 +24,10 @@ commands:
     description: build
     steps:
       - run:
-          name: build
-          command: |
-            echo $ANDROID_HOME
-            echo $ANDROID_NDK_HOME
-            ls -al /opt
-            Xvfb -screen 0 640x480x24:32 &
-            /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile || true
-            /opt/Unity/Editor/Unity -quit -batchMode -buildTarget Android -executeMethod UnityCIExample.Builder.BuildPlayer || true
-            ls -al
-            /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+          command: Xvfb -ac $DISPLAY -screen 0 640x480x16
+          background: true
+      - run: /opt/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+      - run: /opt/Unity/Editor/Unity -quit -batchmode -buildTarget Android -executeMethod UnityCIExample.Builder.BuildPlayer
+      - run:
+          when: always
+          command: /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
