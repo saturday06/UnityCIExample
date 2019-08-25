@@ -13,8 +13,9 @@ environment:
 init:
   - cmd: |
       dir "C:\Program Files (x86)\Android\android-sdk\"
-      dir "C:\Program Files (x86)\Android\android-sdk\licenses"
-      asdfadfjiaosdfjiasodf
+      New-Item -ItemType directory -Path "C:\Program Files (x86)\Android\android-sdk\licenses"
+      dir "C:\Program Files (x86)\Android\android-sdk\"
+      Out-File -FilePath "C:\Program Files (x86)\Android\android-sdk\licenses\android-sdk-license" -InputObject "24333f8a63b6825ea9c5514f83c2829b004d1fee"
 
   - ps: |
       Install-Module -Name UnitySetup
