@@ -22,7 +22,7 @@ commands:
     description: build
     steps:
       - run:
-        name: build
-        command: |
-          /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
-          /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
+          name: build
+          command: |
+            /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+            /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
