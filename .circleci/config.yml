@@ -26,6 +26,9 @@ commands:
       - run:
           name: build
           command: |
+            ls -al /opt
             Xvfb -screen 0 640x480x24:32 &
             /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile || true
+            /opt/Unity/Editor/Unity -quit -batchMode -buildTarget Android -executeMethod UnityCIExample.Builder.BuildPlayer
+            ls -al
             /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
