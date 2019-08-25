@@ -24,7 +24,7 @@ install:
         exit 1
       }
       appveyor DownloadFile https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip
-      7z x android-ndk-r16b-windows-x86_64.zip -o$env:ANDROID_NDK_HOME
+      7z x android-ndk-r16b-windows-x86_64.zip -o $env:ANDROID_NDK_HOME
 
 build_script:
   - ps: |
