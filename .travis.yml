@@ -10,6 +10,7 @@ script:
   - ls -al /
   - mkdir /Volumes
   - ls -al /Volumes
+  - mkdir -p ~/.unitysetup
   - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS) -Destination $HOME/Unity"
   - ls $HOME/Unity
   - $HOME/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
