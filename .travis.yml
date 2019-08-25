@@ -7,9 +7,6 @@ install:
   - pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
 script:
-  - ls -al /
-  - mkdir /Volumes
-  - ls -al /Volumes
   - mkdir -p ~/.unitysetup
   - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS) -Destination $HOME/Unity"
   - ls $HOME/Unity
