@@ -11,12 +11,12 @@ environment:
 
 init:
   - ps: |
-      Install-Module -Name UnitySetup -RequiredVersion 5.0.105
+      Install-Module -Name UnitySetup
       $unity_credential = New-Object Management.Automation.PSCredential ($env:unity_username, ($env:unity_password | ConvertTo-SecureString -AsPlainText -Force))
 
 install:
   - ps: |
-      Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.7f1 -Components 'Windows')
+      Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2019.1.9f1 -Components 'Windows')
       $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)
       type License.log
       if ($unity.ExitCode) {
