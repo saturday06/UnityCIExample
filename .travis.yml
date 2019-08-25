@@ -8,7 +8,7 @@ install:
 
 script:
   - mkdir -p ~/.unitysetup
-  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS)"
+  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS) -Destination $HOME/Unity"
   - ls $HOME/Unity
   - $HOME/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
   - $HOME/Unity/Editor/Unity -quit -batchmode -buildTarget iOS -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
