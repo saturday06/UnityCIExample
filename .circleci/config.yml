@@ -11,7 +11,7 @@ executors:
       - image: gableroux/unity3d:2018.4.6f1-android
     environment:
       DISPLAY: ":0"
-      ANDROID_NDK_HOME: /opt/android-ndk
+      ANDROID_NDK_HOME: /opt/android-ndk-r16b
 
 jobs:
   build:
