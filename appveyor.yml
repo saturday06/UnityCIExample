@@ -12,7 +12,7 @@ environment:
 
 init:
   - ps: |
-      & "echo y | C:\Program Files (x86)\Android\android-sdk\tools\bin\sdkmanager.bat" tools platform-tools "build-tools;28.0.3"
+      & echo y | "C:\Program Files (x86)\Android\android-sdk\tools\bin\sdkmanager.bat" tools platform-tools "build-tools;28.0.3"
       Install-Module -Name UnitySetup
       $unity_credential = New-Object Management.Automation.PSCredential ($env:unity_username, ($env:unity_password | ConvertTo-SecureString -AsPlainText -Force))
 
