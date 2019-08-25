@@ -8,7 +8,7 @@ workflows:
 executors:
   default:
     docker:
-      - image: gableroux/unity3d:2018.4.7f1-android
+      - image: gableroux/unity3d:2018.4.6f1-android
 
 jobs:
   build:
