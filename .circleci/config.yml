@@ -24,5 +24,6 @@ commands:
       - run:
           name: build
           command: |
+            Xvfb &
             /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile || true
             /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
