@@ -51,4 +51,6 @@ commands:
       - run: /opt/Unity/Editor/Unity -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
       - run:
           when: always
-          command: /opt/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense
+          command: /opt/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+      - store_artifacts:
+          path: Build.apk
