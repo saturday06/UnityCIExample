@@ -5,7 +5,7 @@ using UnityEditor.Build.Reporting;
 
 namespace UnityCIExample
 {
-    public static class Builder
+    public class Builder
     {
         public static void BuildPlayer()
         {
