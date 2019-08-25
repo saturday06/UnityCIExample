@@ -1,8 +1,10 @@
 os: osx
+
 osx_image: xcode11
+
 install: |
   brew cask install powershell
-  pwsh -Command "Install-Module UnitySetup -Scope CurrentUser"
-  script: |
-  echo OK
+  pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
+script: |
+  echo OK
