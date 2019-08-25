@@ -1,0 +1,28 @@
+version: 2.1
+
+workflows:
+  build:
+    jobs:
+      - build
+
+executors:
+  default:
+    docker:
+      - image: gableroux/unity3d:2018.4.7f1-android
+
+jobs:
+  build:
+    parallelism: 1
+    executor: default
+  steps:
+    - build
+
+commands:
+  build:
+    description: build
+    steps:
+      - run:
+        name: build
+        command: |
+          /opt/Unity/Editor/Unity -quit -batchmode -quit -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+          /opt/Unity/Editor/Unity -quit -batchmode -returnlicense -logFile
