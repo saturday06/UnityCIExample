@@ -2,16 +2,16 @@ os: osx
 
 osx_image: xcode11
 
-install: |
-  brew cask install powershell
-  pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
+install:
+  - brew cask install powershell
+  - pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
-script: |
-  pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS)"
-  pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force)
-  pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile /dev/stdout -BuildTarget iOS -ExecuteMethod UnityCIExample.Builder.BuildPlayer"
-  ls -al
-  echo OK
+script:
+  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS)"
+  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force)
+  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile /dev/stdout -BuildTarget iOS -ExecuteMethod UnityCIExample.Builder.BuildPlayer"
+  - ls -al
+  - echo OK
 
 after_script:
-  pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force) -ReturnLicense
+  - pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential (New-Object Management.Automation.PSCredential ($env:UNITY_USERNAME, ($env:UNITY_PASSWORD | ConvertTo-SecureString -AsPlainText -Force))) -Serial ($env:UNITY_SERIAL | ConvertTo-SecureString -AsPlainText -Force) -ReturnLicense
