@@ -23,6 +23,17 @@ commands:
   build:
     description: build
     steps:
+      - checkout
+      - run:
+          name: 他のビルドが終わるまで待つ
+          command: |
+            apt update
+            apt install -y curl jq
+            # TODO: キューが100以上になるとバグるのを修正
+            builds_url="https://circleci.com/api/v1.1/project/github/saturday06/UnityCIExample?circle-token=${LIMIT_CONCURRENT_BUILD_CIRCLE_TOKEN}&filter=running&limit=100"
+            while [ $CIRCLE_BUILD_NUM != "$(curl $builds_url | jq '.[-1].build_num')" ]; do
+              sleep 10
+            done      
       - run:
           command: Xvfb -ac $DISPLAY -screen 0 640x480x16
           background: true

@@ -25,7 +25,7 @@ install:
       }
   - ps: appveyor DownloadFile https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip
   - ps: 7z x android-ndk-r16b-windows-x86_64.zip -o"$env:ANDROID_NDK_HOME\\.."
-  - cmd: echo y | "C:\Program Files (x86)\Android\android-sdk\tools\bin\sdkmanager.bat" tools platform-tools "build-tools;28.0.3"
+  - cmd: echo y | "C:\Program Files (x86)\Android\android-sdk\tempToolsDir\bin\sdkmanager.bat" --sdk_root="C:\Program Files (x86)\Android\android-sdk" tools platform-tools "build-tools;28.0.3"
 
 build_script:
   - ps: $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Build.log -BuildTarget Android -ExecuteMethod UnityCIExample.Builder.BuildPlayer
