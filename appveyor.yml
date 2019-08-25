@@ -17,7 +17,7 @@ init:
 
 install:
   - ps: |
-      yes | $env:ANDROID_HOME\tools\bin\sdkmanager.bat --licenses
+      yes | "C:\Program Files (x86)\Android\android-sdk\toolsls\bin\sdkmanager.bat" --licenses
       Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Android,Windows)
       $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)
       type License.log
