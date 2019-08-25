@@ -8,4 +8,9 @@ install: |
 
 script: |
   pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components iOS)"
+  pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile /dev/stdout -BuildTarget iOS -ExecuteMethod UnityCIExample.Builder.BuildPlayer"
+  ls -al
   echo OK
+
+after_script:
+  pwsh -Command "Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile /dev/stdout -Credential $unity_credential -ReturnLicense"
