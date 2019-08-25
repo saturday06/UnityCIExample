@@ -12,7 +12,10 @@ environment:
 
 init:
   - cmd: |
-      yes | "C:\Program Files (x86)\Android\android-sdk\toolsls\bin\sdkmanager.bat" --licenses
+      dir "C:\Program Files (x86)\Android\android-sdk\"
+      dir "C:\Program Files (x86)\Android\android-sdk\licenses"
+      asdfadfjiaosdfjiasodf
+
   - ps: |
       Install-Module -Name UnitySetup
       $unity_credential = New-Object Management.Automation.PSCredential ($env:unity_username, ($env:unity_password | ConvertTo-SecureString -AsPlainText -Force))
