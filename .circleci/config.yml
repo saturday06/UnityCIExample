@@ -51,6 +51,6 @@ commands:
       - run: gdb -batch --args /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
       - run:
           when: always
-          command: gdb -batch --args /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+          command: gdb -ex=r --args /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
       - store_artifacts:
           path: Build.apk
