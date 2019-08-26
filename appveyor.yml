@@ -58,3 +58,6 @@ on_finish:
       if ($unity.ExitCode) {
         exit 1
       }
+
+artifacts:
+  - path: sdkmanager.log
