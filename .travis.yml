@@ -9,15 +9,14 @@ install:
 script:
   - mkdir -p ~/.unitysetup
   - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS) -Destination $HOME/Unity"
-  - ls $HOME/Unity
-  - ls $HOME/Unity/Unity.app
-  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
-  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget iOS -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logfile
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget iOS -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
   - ls -al
 
 after_script:
-  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logFile
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logfile
+  - zip -rT9 Build.zip Build
 
 addons:
   artifacts:
-    working_dir: Build
+    paths: Build.zip
