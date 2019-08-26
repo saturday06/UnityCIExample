@@ -1,0 +1,22 @@
+os: osx
+
+osx_image: xcode11
+
+install:
+  - brew cask install powershell
+  - pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
+
+script:
+  - mkdir -p ~/.unitysetup
+  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS) -Destination $HOME/Unity"
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logfile
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget iOS -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
+
+after_script:
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logfile
+  - tar zcf Build.ios.tar.gz Build
+
+addons:
+  artifacts:
+    paths:
+      - Build.ios.tar.gz

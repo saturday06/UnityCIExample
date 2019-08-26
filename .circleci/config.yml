@@ -1,0 +1,56 @@
+version: 2.1
+
+workflows:
+  build:
+    jobs:
+      - build
+
+executors:
+  default:
+    docker:
+      - image: gableroux/unity3d:2018.4.6f1-android
+    environment:
+      DISPLAY: ":0"
+      ANDROID_NDK_HOME: /opt/android-ndk-r16b
+
+jobs:
+  build:
+    parallelism: 1
+    executor: default
+    steps:
+      - build
+
+commands:
+  build:
+    description: build
+    steps:
+      - checkout
+      - run: echo y | $ANDROID_HOME/tools/bin/sdkmanager tools platform-tools
+      - run: echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;29.0.2"
+      - run: echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-28"
+      - run: |
+          mkdir -p $ANDROID_NDK_HOME
+          wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+          unzip -qo android-ndk-r16b-linux-x86_64.zip -d $ANDROID_NDK_HOME/..
+          ls -al /opt
+          ls -al $ANDROID_NDK_HOME
+      - run:
+          name: 他のビルドが終わるまで待つ
+          command: |
+            apt update
+            apt install -y curl jq gdb
+            # TODO: キューが100以上になるとバグるのを修正
+            builds_url="https://circleci.com/api/v1.1/project/github/saturday06/UnityCIExample?circle-token=${LIMIT_CONCURRENT_BUILD_CIRCLE_TOKEN}&filter=running&limit=100"
+            while [ $CIRCLE_BUILD_NUM != "$(curl $builds_url | jq '.[-1].build_num')" ]; do
+              sleep 10
+            done      
+      - run:
+          command: Xvfb -ac $DISPLAY -screen 0 640x480x16
+          background: true
+      - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+      - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
+      - run:
+          when: always
+          command: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+      - store_artifacts:
+          path: Build.apk
