@@ -2,24 +2,29 @@ os: osx
 
 osx_image: xcode11
 
+env:
+  - ANDROID_HOME=/Users/travis/android-sdk
+  - ANDROID_NDK_HOME=/Users/travis/android-ndk-r16b
+
 install:
   - brew cask install powershell
   - pwsh -Command "Install-Module UnitySetup -Scope CurrentUser -Force"
 
 script:
   - mkdir -p ~/.unitysetup
-  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS) -Destination $HOME/Unity"
+  - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,Android,iOS) -Destination $HOME/Unity"
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logfile
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget iOS -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
+  - 
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget Android -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
   - ls -al
 
 after_script:
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logfile
-  - zip -rT9 Build.ios.zip Build
+  - tar zcf Build.ios.tar.gz Build
 
 addons:
   artifacts:
     paths:
       - Build.apk
-      - Build.ios.zip
+      - Build.ios.tar.gz
