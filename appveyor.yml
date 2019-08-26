@@ -59,4 +59,4 @@ on_finish:
       }
 
 artifacts:
-  - path: sdkmanager.log
+  - path: Build.apk
