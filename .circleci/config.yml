@@ -38,7 +38,7 @@ commands:
           name: 他のビルドが終わるまで待つ
           command: |
             apt update
-            apt install -y curl jq
+            apt install -y curl jq gdb
             # TODO: キューが100以上になるとバグるのを修正
             builds_url="https://circleci.com/api/v1.1/project/github/saturday06/UnityCIExample?circle-token=${LIMIT_CONCURRENT_BUILD_CIRCLE_TOKEN}&filter=running&limit=100"
             while [ $CIRCLE_BUILD_NUM != "$(curl $builds_url | jq '.[-1].build_num')" ]; do
@@ -48,9 +48,9 @@ commands:
           command: Xvfb -ac $DISPLAY -screen 0 640x480x16
           background: true
       - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
-      - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
+      - run: gdb --args /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
       - run:
           when: always
-          command: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+          command: gdb --args /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
       - store_artifacts:
           path: Build.apk
