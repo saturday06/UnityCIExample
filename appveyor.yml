@@ -33,12 +33,11 @@ install:
   - ps: 7z x android-ndk-r16b-windows-x86_64.zip -o"$env:ANDROID_NDK_HOME\\.."
 
 build_script:
-  - ps: $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Build.log -BuildTarget Android -ExecuteMethod UnityCIExample.Builder.BuildPlayer
-  - ps: type Build.log
   - ps: |
-      if ($unity.ExitCode) {
-        exit 1
-      }
+      $unityBuildJob = Start-Job -ScriptBlock { Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Build.log -BuildTarget Android -ExecuteMethod UnityCIExample.Builder.BuildPlayer }
+      $unityBuildJob | Wait-Job -Timeout 60
+      type Build.log
+      $unityBuildJob | Stop-Job
 
 test_script:
   - ps: $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Wait -LogFile Test.log -RunEditorTests
