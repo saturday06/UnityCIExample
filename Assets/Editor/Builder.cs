@@ -15,14 +15,9 @@ namespace UnityCIExample
                 scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(scene => scene.path).ToArray(),
                 target = EditorUserBuildSettings.activeBuildTarget,
             };
-            switch (buildPlayerOptions.target)
+            if (buildPlayerOptions.target == BuildTarget.Android)
             {
-                case BuildTarget.Android:
-                    buildPlayerOptions.locationPathName += ".apk";
-                    break;
-                case BuildTarget.iOS:
-                    buildPlayerOptions.locationPathName += ".ipa";
-                    break;
+                buildPlayerOptions.locationPathName += ".apk";
             }
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             if (report.summary.result != BuildResult.Succeeded)
