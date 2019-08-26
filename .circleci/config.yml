@@ -47,10 +47,10 @@ commands:
       - run:
           command: Xvfb -ac $DISPLAY -screen 0 640x480x16
           background: true
-      - run: /opt/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
-      - run: /opt/Unity/Editor/Unity -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
+      - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile
+      - run: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -buildTarget Android -logFile -executeMethod UnityCIExample.Builder.BuildPlayer
       - run:
           when: always
-          command: /opt/Unity/Editor/Unity -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
+          command: /opt/Unity/Editor/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logFile -returnlicense || true
       - store_artifacts:
           path: Build.apk
