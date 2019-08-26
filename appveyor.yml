@@ -18,10 +18,11 @@ init:
 install:
   - ps: New-Item -ItemType directory -Path "$env:ANDROID_HOME\\licenses"
   - ps: Out-File -FilePath "$env:ANDROID_HOME\\licenses\\android-sdk-license" -InputObject "`r`n24333f8a63b6825ea9c5514f83c2829b004d1fee" -NoNewline
-  - ps: |
-      Echo 'y' | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" tools platform-tools >> sdkmanager.log | Out-Null
-      Echo 'y' | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" "build-tools;28.0.3" >> sdkmanager.log | Out-Null
-      Echo 'y' | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" "platforms;android-28" >> sdkmanager.log | Out-Null
+  - cmd: |
+      "%ANDROID_HOME%\\tools\\bin\\sdkmanager.bat" tools platform-tools >> sdkmanager.log || echo ok
+      "%ANDROID_HOME%\\tools\\bin\\sdkmanager.bat" "build-tools;28.0.3" >> sdkmanager.log || echo ok
+      "%ANDROID_HOME%\\tools\\bin\\sdkmanager.bat" "platforms;android-28" >> sdkmanager.log || echo ok
+
   - ps: Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Windows,Android)
   - ps: $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)
   - ps: type License.log
