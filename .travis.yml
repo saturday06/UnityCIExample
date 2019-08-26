@@ -11,12 +11,15 @@ script:
   - pwsh -Command "Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Mac,iOS) -Destination $HOME/Unity"
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -serial $UNITY_SERIAL -username "$UNITY_USERNAME" -password "$UNITY_PASSWORD" -logfile
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget iOS -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
+  - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -buildTarget Android -logfile -executeMethod UnityCIExample.Builder.BuildPlayer
   - ls -al
 
 after_script:
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logfile
-  - zip -rT9 Build.zip Build
+  - zip -rT9 Build.ios.zip Build
 
 addons:
   artifacts:
-    paths: Build.zip
+    paths:
+      - Build.apk
+      - Build.ios.zip
