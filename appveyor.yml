@@ -19,10 +19,10 @@ install:
   - ps: New-Item -ItemType directory -Path "$env:ANDROID_HOME\\licenses"
   - ps: Out-File -FilePath "$env:ANDROID_HOME\\licenses\\android-sdk-license" -InputObject "`r`n24333f8a63b6825ea9c5514f83c2829b004d1fee" -NoNewline
 
-  - ps: for($i=0;$i -lt 30;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 --update | Out-Null
-  - ps: for($i=0;$i -lt 30;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 tools platform-tools | Out-Null
-  - ps: for($i=0;$i -lt 30;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 "build-tools;29.0.2" | Out-Null
-  - ps: for($i=0;$i -lt 30;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 "platforms;android-28" | Out-Null
+  - ps: for($i=0;$i -lt 60;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 --update | Out-Null
+  - ps: for($i=0;$i -lt 60;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 tools platform-tools | Out-Null
+  - ps: for($i=0;$i -lt 60;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 "build-tools;29.0.2" | Out-Null
+  - ps: for($i=0;$i -lt 60;$i++) { $response += "y`n"}; $response | & "$env:ANDROID_HOME\\tools\\bin\\sdkmanager.bat" 2>&1 "platforms;android-28" | Out-Null
 
   - ps: Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version 2018.4.6f1 -Components Windows,Android)
   - ps: $unity = Start-UnityEditor -BatchMode -Latest -PassThru -Quit -Wait -LogFile License.log -Credential $unity_credential -Serial ($env:unity_serial | ConvertTo-SecureString -AsPlainText -Force)

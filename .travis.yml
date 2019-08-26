@@ -17,3 +17,7 @@ script:
 
 after_script:
   - $HOME/Unity/Unity.app/Contents/MacOS/Unity -projectPath . -quit -batchmode -returnlicense -logFile
+
+addons:
+  artifacts:
+    working_dir: Build
